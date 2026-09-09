@@ -2,6 +2,185 @@
 
 @custom-variant light (&:where(.light, .light *));
 
+.hero-3d-canvas {
+  position: relative;
+  min-height: 460px;
+  display: grid;
+  place-items: center;
+}
+
+.hero-3d-grid {
+  position: relative;
+  width: min(460px, 100%);
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-3d-ring {
+  position: relative;
+  width: 360px;
+  height: 360px;
+  max-width: 100%;
+  border-radius: 50%;
+  border: 1px solid rgba(125, 211, 252, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.12), transparent 70%);
+  box-shadow: inset 0 0 60px rgba(45, 212, 191, 0.2), 0 0 70px rgba(99, 102, 241, 0.28);
+}
+
+.hero-3d-orbit {
+  position: absolute;
+  inset: -16px;
+  border-radius: 50%;
+  border: 1px dashed rgba(196, 181, 253, 0.75);
+  transform: rotateX(65deg);
+}
+
+.orbit-two {
+  inset: 10px;
+  transform: rotateY(65deg);
+}
+
+.orbit-three {
+  inset: -30px;
+  transform: rotateZ(45deg);
+}
+
+.card-3d-tilt {
+  position: relative;
+  width: min(280px, 70vw);
+  padding: 12px;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(15,23,42,0.65);
+  backdrop-filter: blur(14px);
+  transform: perspective(900px) rotateY(-12deg) rotateX(8deg);
+  box-shadow: 0 30px 80px rgba(45, 212, 191, 0.16);
+}
+
+.card-3d-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  aspect-ratio: 4 / 3;
+  background: #0f172a;
+}
+
+.card-3d-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-3d-shine {
+  position: absolute;
+  inset: -80%;
+  transform: rotate(15deg);
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shearGlow 3s linear infinite;
+}
+
+.card-3d-meta {
+  padding: 16px 4px 4px;
+}
+
+.card-3d-kicker {
+  color: var(--cyan-core, #67e8f9);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.card-3d-meta h3 {
+  margin-top: 8px;
+  color: white;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.tech-sphere-3d {
+  display: block;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.tech-sphere-frame {
+  position: relative;
+  margin: 0 auto;
+  width: min(260px, 70vw);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 1px solid rgba(103,232,249,0.4);
+  background: radial-gradient(circle, rgba(30,41,59,0.9), rgba(15,23,42,0.2));
+  box-shadow: inset 0 0 30px rgba(45,212,191,0.2), 0 0 60px rgba(129,140,248,0.16);
+}
+
+.tech-sphere-core {
+  position: absolute;
+  inset: 34%;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #22d3ee, #6366f1);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.4);
+  box-shadow: 0 0 35px rgba(45,212,191,0.3);
+}
+
+.tech-sphere-core-label {
+  font-family: var(--font-mono);
+  letter-spacing: 0.2em;
+}
+
+.tech-sphere-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: white;
+  background: rgba(15,23,42,0.85);
+  border: 1px solid rgba(103,232,249,0.4);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  animation: bob 2.8s ease-in-out infinite;
+}
+
+.three-background-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.mesh {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.5;
+}
+
+.mesh-one { background: #22d3ee; left: -10%; top: 8%; }
+.mesh-two { background: #8b5cf6; right: -8%; top: -4%; }
+.mesh-three { background: #34d399; left: 50%; bottom: -10%; }
+
+@keyframes bob {
+  50% { transform: translate(-50%, -50%) scale(1.04); box-shadow: 0 0 15px rgba(45,212,191,0.4); }
+}
+
+@keyframes shearGlow {
+  from { transform: translateX(-80%) rotate(15deg); }
+  to { transform: translateX(160%) rotate(15deg); }
+}
+
 @layer base {
   :root {
     --font-heading: 'Outfit', sans-serif;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { PROFILE } from '../../config/profile';
 import { DeveloperDashboard } from './DeveloperDashboard';
+import { Hero3DCanvas } from '../3d/Hero3DCanvas';
 import { motion } from 'framer-motion';
 import { ArrowRight, Mail } from 'lucide-react';
 import { Github, Linkedin } from '../ui/Icons';
@@ -126,6 +127,7 @@ export const Hero = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="lg:col-span-5"
           >
+            <Hero3DCanvas />
             <DeveloperDashboard />
           </motion.div>
         </div>

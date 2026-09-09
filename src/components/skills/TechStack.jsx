@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { SKILLS_CATEGORIES } from '../../data/skills';
 import { SkillCategoryCard } from './SkillCategoryCard';
+import { TechSphere3D } from '../3d/TechSphere3D';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutGrid, Layers, Cpu, Sparkles, ChevronLeft, ChevronRight, Play, Pause, Code2, Layout, Database, GraduationCap, Wrench } from 'lucide-react';
 
@@ -147,6 +148,8 @@ export const TechStack = () => {
             </button>
           </motion.div>
         </div>
+
+        <TechSphere3D />
 
         {/* Scrollable Category Filter Pills */}
         <div className="flex items-center justify-between gap-4 mb-6">
