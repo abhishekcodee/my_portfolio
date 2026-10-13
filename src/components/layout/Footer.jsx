@@ -1,11 +1,13 @@
 import React from 'react';
 import { PROFILE } from '../../config/profile';
 import { Code2, ArrowUp } from 'lucide-react';
-import { Github, Linkedin } from '../ui/Icons';
+import { Github, Linkedin, Instagram, Facebook } from '../ui/Icons';
 
 export const Footer = () => {
   const hasGitHub = Boolean(PROFILE.socials?.github || PROFILE.githubUsername);
   const hasLinkedIn = Boolean(PROFILE.socials?.linkedin);
+  const hasInstagram = Boolean(PROFILE.socials?.instagram);
+  const hasFacebook = Boolean(PROFILE.socials?.facebook);
   const githubUrl = PROFILE.socials?.github || (PROFILE.githubUsername ? `https://github.com/${PROFILE.githubUsername}` : '');
 
   const scrollToTop = () => {
@@ -68,6 +70,30 @@ export const Footer = () => {
                 className="p-2 rounded-xl bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 text-slate-400 light:text-slate-700 hover:text-cyan-400 light:hover:text-indigo-600 hover:border-slate-700 transition-colors shadow-sm"
               >
                 <Linkedin className="w-4 h-4" />
+              </a>
+            )}
+
+            {hasInstagram && (
+              <a
+                href={PROFILE.socials.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram Profile"
+                className="p-2 rounded-xl bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 text-slate-400 light:text-slate-700 hover:text-pink-400 hover:border-pink-500/30 transition-colors shadow-sm"
+              >
+                <Instagram className="w-4 h-4" />
+              </a>
+            )}
+
+            {hasFacebook && (
+              <a
+                href={PROFILE.socials.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook Profile"
+                className="p-2 rounded-xl bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 text-slate-400 light:text-slate-700 hover:text-blue-400 hover:border-blue-500/30 transition-colors shadow-sm"
+              >
+                <Facebook className="w-4 h-4" />
               </a>
             )}
 

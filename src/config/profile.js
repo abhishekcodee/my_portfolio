@@ -14,6 +14,8 @@ export const PROFILE = {
   socials: {
     github: "https://github.com/abhishekcodee",
     linkedin: "https://www.linkedin.com/in/abhishek-upadhyay-a20617376",
+    instagram: "https://instagram.com/amanupadhyay.x?vrfl=MWJqbjltMHo5amg1OQ%3D%3D",
+    facebook: "https://www.facebook.com/share/1CteExkFCR/",
     email: "mailto:amanupadhyay2030@gmail.com",
     twitter: "",
   },

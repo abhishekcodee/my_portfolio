@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PROFILE } from '../../config/profile';
 import { ThemeToggle } from './ThemeToggle';
 import { Menu, X, Code2 } from 'lucide-react';
-import { Github, Linkedin } from '../ui/Icons';
+import { Github, Linkedin, Instagram, Facebook } from '../ui/Icons';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const NAV_LINKS = [
@@ -23,6 +23,8 @@ export const Navbar = () => {
 
   const hasGitHub = Boolean(PROFILE.socials?.github || PROFILE.githubUsername);
   const hasLinkedIn = Boolean(PROFILE.socials?.linkedin);
+  const hasInstagram = Boolean(PROFILE.socials?.instagram);
+  const hasFacebook = Boolean(PROFILE.socials?.facebook);
   const githubUrl = PROFILE.socials?.github || (PROFILE.githubUsername ? `https://github.com/${PROFILE.githubUsername}` : '');
 
   useEffect(() => {
@@ -129,6 +131,30 @@ export const Navbar = () => {
               </a>
             )}
 
+            {hasInstagram && (
+              <a
+                href={PROFILE.socials.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram Profile"
+                className="p-2.5 rounded-xl border border-slate-800 light:border-slate-300 bg-slate-900/50 light:bg-white text-slate-400 light:text-slate-600 hover:text-pink-400 hover:border-pink-500/30 transition-all duration-200 hidden sm:flex items-center justify-center hover:scale-105"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+            )}
+
+            {hasFacebook && (
+              <a
+                href={PROFILE.socials.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook Profile"
+                className="p-2.5 rounded-xl border border-slate-800 light:border-slate-300 bg-slate-900/50 light:bg-white text-slate-400 light:text-slate-600 hover:text-blue-400 hover:border-blue-500/30 transition-all duration-200 hidden sm:flex items-center justify-center hover:scale-105"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+            )}
+
             <ThemeToggle />
 
             {/* Mobile Hamburger Button */}
@@ -172,7 +198,7 @@ export const Navbar = () => {
                 );
               })}
 
-              {(hasGitHub || hasLinkedIn) && (
+              {(hasGitHub || hasLinkedIn || hasInstagram || hasFacebook) && (
                 <div className="flex items-center gap-4 pt-4 mt-2 border-t border-slate-800/80 light:border-slate-200">
                   {hasGitHub && (
                     <a
@@ -192,6 +218,26 @@ export const Navbar = () => {
                       className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-slate-900 light:bg-slate-100 text-slate-200 light:text-slate-800 font-medium text-sm border border-slate-800 light:border-slate-200"
                     >
                       <Linkedin className="w-4 h-4 text-cyan-400" /> LinkedIn
+                    </a>
+                  )}
+                  {hasInstagram && (
+                    <a
+                      href={PROFILE.socials.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-slate-900 light:bg-slate-100 text-slate-200 light:text-slate-800 font-medium text-sm border border-slate-800 light:border-slate-200"
+                    >
+                      <Instagram className="w-4 h-4 text-pink-400" /> Instagram
+                    </a>
+                  )}
+                  {hasFacebook && (
+                    <a
+                      href={PROFILE.socials.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-slate-900 light:bg-slate-100 text-slate-200 light:text-slate-800 font-medium text-sm border border-slate-800 light:border-slate-200"
+                    >
+                      <Facebook className="w-4 h-4 text-blue-400" /> Facebook
                     </a>
                   )}
                 </div>

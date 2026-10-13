@@ -3,7 +3,7 @@ import { PROFILE } from '../../config/profile';
 import { Toast } from '../ui/Toast';
 import { motion } from 'framer-motion';
 import { Mail, Send, Copy, Check, User, AtSign } from 'lucide-react';
-import { Github, Linkedin } from '../ui/Icons';
+import { Github, Linkedin, Instagram, Facebook } from '../ui/Icons';
 
 export const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -21,6 +21,8 @@ export const ContactSection = () => {
   const hasEmail = Boolean(PROFILE.email);
   const hasGitHub = Boolean(PROFILE.socials?.github || PROFILE.githubUsername);
   const hasLinkedIn = Boolean(PROFILE.socials?.linkedin);
+  const hasInstagram = Boolean(PROFILE.socials?.instagram);
+  const hasFacebook = Boolean(PROFILE.socials?.facebook);
   const githubUrl = PROFILE.socials?.github || (PROFILE.githubUsername ? `https://github.com/${PROFILE.githubUsername}` : '');
 
   const validate = () => {
@@ -151,7 +153,7 @@ export const ContactSection = () => {
                   Links:
                 </span>
 
-                <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3">
                   {hasGitHub && (
                     <a
                       href={githubUrl}
@@ -173,6 +175,30 @@ export const ContactSection = () => {
                     >
                       <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 group-hover:text-indigo-600" />
                       <span className="text-[11px] sm:text-xs">LinkedIn</span>
+                    </a>
+                  )}
+
+                  {hasInstagram && (
+                    <a
+                      href={PROFILE.socials.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-col items-center justify-center gap-1 sm:gap-1.5 p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-slate-950/80 light:bg-slate-50 hover:bg-slate-800 light:hover:bg-slate-100 text-slate-200 light:text-slate-800 font-medium text-xs border border-slate-800 light:border-slate-200 transition-all shadow-sm group"
+                    >
+                      <Instagram className="w-4 h-4 sm:w-5 sm:h-5 text-pink-400 group-hover:text-pink-300" />
+                      <span className="text-[11px] sm:text-xs">Instagram</span>
+                    </a>
+                  )}
+
+                  {hasFacebook && (
+                    <a
+                      href={PROFILE.socials.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-col items-center justify-center gap-1 sm:gap-1.5 p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-slate-950/80 light:bg-slate-50 hover:bg-slate-800 light:hover:bg-slate-100 text-slate-200 light:text-slate-800 font-medium text-xs border border-slate-800 light:border-slate-200 transition-all shadow-sm group"
+                    >
+                      <Facebook className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400 group-hover:text-blue-300" />
+                      <span className="text-[11px] sm:text-xs">Facebook</span>
                     </a>
                   )}
 

@@ -2,8 +2,9 @@ import React from 'react';
 import { PROFILE } from '../../config/profile';
 import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
 import { ArrowUpRight, Mail, MapPin, Sparkles } from 'lucide-react';
-import { Github, Linkedin } from '../ui/Icons';
-import heroImage from '../../assets/profile-portrait.jpeg';
+import { Github, Linkedin, Instagram, Facebook } from '../ui/Icons';
+import heroImage from '../../assets/profile-office.jpeg';
+import fullBodyImage from '../../assets/profile-full-body.jpeg';
 import { ThreeBackgroundCanvas } from '../3d/ThreeBackgroundCanvas';
 
 const PortraitCard = () => {
@@ -75,7 +76,14 @@ const PortraitCard = () => {
               <p className="hero-profile-name">{PROFILE.name}</p>
               <p className="hero-profile-role">Full-stack builder & problem solver</p>
             </div>
-            <MapPin className="w-5 h-5" />
+             <div className="flex items-center gap-2">
+               <img
+                 src={fullBodyImage}
+                 alt={`${PROFILE.name} full-body portrait`}
+                 className="w-12 h-16 object-cover rounded-md border border-white/30 shadow-lg"
+               />
+               <MapPin className="w-5 h-5" />
+             </div>
           </div>
           <div className="hero-profile-note">Building practical tools for people, teams, and growing businesses.</div>
         </motion.div>
@@ -87,6 +95,8 @@ const PortraitCard = () => {
 export const Hero = () => {
   const hasGitHub = Boolean(PROFILE.socials?.github || PROFILE.githubUsername);
   const hasLinkedIn = Boolean(PROFILE.socials?.linkedin);
+  const hasInstagram = Boolean(PROFILE.socials?.instagram);
+  const hasFacebook = Boolean(PROFILE.socials?.facebook);
   const hasEmail = Boolean(PROFILE.email || PROFILE.socials?.email);
   const githubUrl = PROFILE.socials?.github || (PROFILE.githubUsername ? `https://github.com/${PROFILE.githubUsername}` : '');
 
@@ -146,7 +156,7 @@ export const Hero = () => {
             </div>
 
             {/* Secondary Quick Social Links */}
-            {(hasGitHub || hasLinkedIn || hasEmail) && (
+            {(hasGitHub || hasLinkedIn || hasInstagram || hasFacebook || hasEmail) && (
               <div className="hero-links">
                   <span className="hero-links-label">
                   Connect:
@@ -173,6 +183,30 @@ export const Hero = () => {
                   >
                     <Linkedin className="w-4 h-4" />
                     <span>LinkedIn</span>
+                  </a>
+                )}
+
+                {hasInstagram && (
+                  <a
+                    href={PROFILE.socials.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hero-link"
+                  >
+                    <Instagram className="w-4 h-4" />
+                    <span>Instagram</span>
+                  </a>
+                )}
+
+                {hasFacebook && (
+                  <a
+                    href={PROFILE.socials.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hero-link"
+                  >
+                    <Facebook className="w-4 h-4" />
+                    <span>Facebook</span>
                   </a>
                 )}
 

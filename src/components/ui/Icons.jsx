@@ -27,3 +27,17 @@ export const Linkedin = ({ className = "w-5 h-5" }) => (
     />
   </svg>
 );
+
+export const Instagram = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+    <rect x="3" y="3" width="18" height="18" rx="5" strokeWidth="2" />
+    <circle cx="12" cy="12" r="4" strokeWidth="2" />
+    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+  </svg>
+);
+
+export const Facebook = ({ className = "w-5 h-5" }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M13.5 21v-8h2.75l.41-3h-3.16V8.08c0-.87.24-1.46 1.5-1.46h1.8V3.94c-.31-.04-1.37-.14-2.6-.14-2.57 0-4.33 1.57-4.33 4.46V10H7v3h2.87v8h3.63Z" />
+  </svg>
+);
