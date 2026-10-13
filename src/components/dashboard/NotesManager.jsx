@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { useDashboard } from '../../context/DashboardContext';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, Plus, Search, Pin, Star, Tag, Code, Trash2, Edit, X, Copy, Check, Maximize2, Minimize2 } from 'lucide-react';
+import { useDashboard } from '../../context/useDashboard';
+import { motion } from 'framer-motion';
+import { FileText, Plus, Search, Pin, Star, Trash2, Edit, X, Copy, Check, Maximize2, Minimize2 } from 'lucide-react';
 
 export const NotesManager = () => {
   const { notes, addItem, updateItem, deleteItem } = useDashboard();
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [activeNote, setActiveNote] = useState(null);
 
   // Modals
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -18,8 +17,8 @@ export const NotesManager = () => {
   const [formData, setFormData] = useState({
     title: '',
     content: '',
-    category: 'PHP',
-    tags: 'PDO, Security, MySQL',
+     category: '',
+     tags: '',
     relatedCourse: '',
     relatedProject: '',
     pinned: false,
@@ -45,9 +44,9 @@ export const NotesManager = () => {
     setIsModalFullScreen(false);
     setFormData({
       title: '',
-      content: '# Note Title\n\nWrite your developer notes or code snippet here...\n\n```php\n$pdo = new PDO($dsn, $user, $pass);\n```',
-      category: 'PHP',
-      tags: 'PDO, MySQL',
+       content: '',
+       category: '',
+       tags: '',
       relatedCourse: '',
       relatedProject: '',
       pinned: false,

@@ -1,24 +1,37 @@
 import React from 'react';
-import { useDashboard } from '../../context/DashboardContext';
+import { useDashboard } from '../../context/useDashboard';
 import { motion } from 'framer-motion';
 import { Award, BookOpen, Clock, Cpu, FolderCode, Target, Flame, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Star, GitFork } from 'lucide-react';
+import { Github } from '../ui/Icons';
+import { useGitHub } from '../../hooks/useGitHub';
+import { PROFILE } from '../../config/profile';
 
 export const DashboardOverview = () => {
-  const { certificates, courses, notes, skills, goals, projects, streak, activities, setActiveTab } = useDashboard();
+  const { auth, certificates, courses, notes, skills, goals, projects, streak, activities, setActiveTab } = useDashboard();
+  const { profile: githubProfile, repos: githubRepos, loading: githubLoading, error: githubError } = useGitHub();
 
-  const totalCerts = certificates?.length || 0;
-  const inProgressCourses = courses?.filter((c) => c.status === 'Currently Learning').length || 0;
-  const completedCourses = courses?.filter((c) => c.status === 'Completed').length || 0;
-  const activeGoals = goals?.filter((g) => g.status === 'In Progress').length || 0;
+  const certificateList = certificates || [];
+  const courseList = courses || [];
+  const skillList = skills || [];
+  const projectList = projects || [];
+  const activityList = activities || [];
+  const goalList = goals || [];
+  const noteList = notes || [];
+  const inProgressCourses = courseList.filter((c) => c.status === 'Currently Learning');
+  const completedCourses = courseList.filter((c) => c.status === 'Completed');
+  const activeGoals = goalList.filter((g) => g.status === 'In Progress');
+  const currentStreak = Number(streak?.currentStreak);
+  const totalHours = Number(streak?.totalHours);
 
   const stats = [
-    { label: 'Total Certificates', value: totalCerts, icon: Award, color: 'text-amber-400 bg-amber-500/10 border-amber-500/20', tab: 'certificates' },
-    { label: 'Courses Learning', value: inProgressCourses, icon: BookOpen, color: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20', tab: 'courses' },
-    { label: 'Courses Completed', value: completedCourses, icon: CheckCircle2, color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20', tab: 'courses' },
-    { label: 'Learning Hours', value: `${streak?.totalHours || 246}h`, icon: Clock, color: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20', tab: 'streak' },
-    { label: 'Skills Tracked', value: skills?.length || 0, icon: Cpu, color: 'text-teal-400 bg-teal-500/10 border-teal-500/20', tab: 'skills' },
-    { label: 'Projects Built', value: projects?.length || 0, icon: FolderCode, color: 'text-purple-400 bg-purple-500/10 border-purple-500/20', tab: 'projects' },
-  ];
+    certificateList.length > 0 && { label: 'Total Certificates', value: certificateList.length, icon: Award, color: 'text-amber-400 bg-amber-500/10 border-amber-500/20', tab: 'certificates' },
+    inProgressCourses.length > 0 && { label: 'Courses Learning', value: inProgressCourses.length, icon: BookOpen, color: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20', tab: 'courses' },
+    completedCourses.length > 0 && { label: 'Courses Completed', value: completedCourses.length, icon: CheckCircle2, color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20', tab: 'courses' },
+    totalHours > 0 && { label: 'Learning Hours', value: `${totalHours}h`, icon: Clock, color: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20', tab: 'streak' },
+    skillList.length > 0 && { label: 'Skills Tracked', value: skillList.length, icon: Cpu, color: 'text-teal-400 bg-teal-500/10 border-teal-500/20', tab: 'skills' },
+    projectList.length > 0 && { label: 'Projects Built', value: projectList.length, icon: FolderCode, color: 'text-purple-400 bg-purple-500/10 border-purple-500/20', tab: 'projects' },
+  ].filter(Boolean);
 
   return (
     <div className="space-y-8">
@@ -39,7 +52,7 @@ export const DashboardOverview = () => {
             </div>
 
             <h1 className="font-heading font-extrabold text-2xl sm:text-4xl text-slate-100 light:text-slate-900 tracking-tight">
-              Welcome back, Abhishek
+              Welcome back{auth?.user?.name ? `, ${auth.user.name}` : ''}
             </h1>
 
             <p className="text-slate-300 light:text-slate-600 text-sm sm:text-base mt-1.5 font-sans max-w-xl">
@@ -48,7 +61,7 @@ export const DashboardOverview = () => {
           </div>
 
           {/* Streak Counter Card */}
-          <div
+          {currentStreak > 0 && <div
             onClick={() => setActiveTab('streak')}
             className="p-4 rounded-2xl bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-200 flex items-center gap-4 shrink-0 shadow-md cursor-pointer hover:border-cyan-400 transition-colors"
           >
@@ -60,15 +73,15 @@ export const DashboardOverview = () => {
                 Active Streak
               </div>
               <div className="text-2xl font-mono font-extrabold text-slate-100 light:text-slate-900">
-                {streak?.currentStreak || 14} Days 🔥
+                {currentStreak} Days 🔥
               </div>
             </div>
-          </div>
+          </div>}
         </div>
       </motion.div>
 
       {/* Summary Stat Cards Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+      {stats.length > 0 && <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
         {stats.map((item, idx) => {
           const Icon = item.icon;
           return (
@@ -94,13 +107,49 @@ export const DashboardOverview = () => {
             </motion.div>
           );
         })}
-      </div>
+      </div>}
+
+      <motion.section
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, delay: 0.2 }}
+        className="rounded-3xl bg-slate-900/90 border border-slate-800 p-5 sm:p-6 shadow-xl"
+      >
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
+          <div>
+            <p className="text-xs font-mono uppercase tracking-widest text-cyan-400">Live integration</p>
+            <h2 className="font-heading font-extrabold text-xl text-slate-100 flex items-center gap-2"><Github className="w-5 h-5" /> GitHub activity</h2>
+          </div>
+          <a href={githubProfile?.html_url || PROFILE.socials?.github || '#'} target="_blank" rel="noreferrer" className="text-xs font-mono text-cyan-400 hover:underline">Open profile ↗</a>
+        </div>
+        {githubLoading && <p className="text-sm text-slate-400">Loading live repositories from GitHub…</p>}
+        {githubError && <p className="text-sm text-amber-300">GitHub is temporarily unavailable. No sample repositories are shown.</p>}
+        {!githubLoading && !githubError && githubProfile && (
+          <>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+              <div className="rounded-2xl bg-slate-950/70 border border-slate-800 p-3"><strong className="block text-2xl text-slate-100">{githubProfile.public_repos}</strong><span className="text-xs text-slate-400">Public repos</span></div>
+              <div className="rounded-2xl bg-slate-950/70 border border-slate-800 p-3"><strong className="block text-2xl text-slate-100">{githubProfile.followers}</strong><span className="text-xs text-slate-400">Followers</span></div>
+              <div className="rounded-2xl bg-slate-950/70 border border-slate-800 p-3"><strong className="block text-2xl text-slate-100">{githubRepos.reduce((sum, repo) => sum + repo.stargazers_count, 0)}</strong><span className="text-xs text-slate-400">Stars shown</span></div>
+              <div className="rounded-2xl bg-slate-950/70 border border-slate-800 p-3"><strong className="block text-2xl text-slate-100">{githubRepos.reduce((sum, repo) => sum + repo.forks_count, 0)}</strong><span className="text-xs text-slate-400">Forks shown</span></div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {githubRepos.slice(0, 3).map((repo) => (
+                <a key={repo.id} href={repo.html_url} target="_blank" rel="noreferrer" className="rounded-2xl bg-slate-950/70 border border-slate-800 p-4 hover:border-cyan-400/60 hover:-translate-y-1 transition-all">
+                  <div className="flex items-center justify-between gap-2"><strong className="text-sm text-slate-100 truncate">{repo.name}</strong><span className="text-xs text-cyan-400">{repo.language}</span></div>
+                  <p className="text-xs text-slate-400 mt-2 line-clamp-2">{repo.description}</p>
+                  <div className="flex gap-3 mt-3 text-xs text-slate-500"><span><Star className="inline w-3 h-3" /> {repo.stargazers_count}</span><span><GitFork className="inline w-3 h-3" /> {repo.forks_count}</span></div>
+                </a>
+              ))}
+            </div>
+          </>
+        )}
+      </motion.section>
 
       {/* Main Grid: Courses In Progress + Skills Progress */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      {(inProgressCourses.length > 0 || skillList.length > 0) && <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Left 7 cols: Courses Currently Learning */}
-        <div className="lg:col-span-7 space-y-6">
+        {inProgressCourses.length > 0 && <div className="lg:col-span-7 space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="font-heading font-extrabold text-lg sm:text-xl text-slate-100 light:text-slate-900 flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-cyan-400 light:text-indigo-600" />
@@ -117,7 +166,7 @@ export const DashboardOverview = () => {
           </div>
 
           <div className="space-y-4">
-            {courses?.filter((c) => c.status === 'Currently Learning').slice(0, 3).map((course) => (
+            {inProgressCourses.slice(0, 3).map((course) => (
               <div
                 key={course.id}
                 onClick={() => setActiveTab('courses')}
@@ -158,10 +207,10 @@ export const DashboardOverview = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div>}
 
         {/* Right 5 cols: Key Skills Growth */}
-        <div className="lg:col-span-5 space-y-6">
+        {skillList.length > 0 && <div className="lg:col-span-5 space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="font-heading font-extrabold text-lg sm:text-xl text-slate-100 light:text-slate-900 flex items-center gap-2">
               <Cpu className="w-5 h-5 text-indigo-400 light:text-indigo-600" />
@@ -178,7 +227,7 @@ export const DashboardOverview = () => {
           </div>
 
           <div className="p-5 rounded-2xl bg-slate-900/90 light:bg-white border border-slate-800 light:border-slate-200 space-y-4 shadow-md">
-            {skills?.slice(0, 5).map((skill) => (
+            {skillList.slice(0, 5).map((skill) => (
               <div key={skill.id} className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs font-mono">
                   <span className="font-bold text-slate-200 light:text-slate-800">{skill.name}</span>
@@ -193,14 +242,14 @@ export const DashboardOverview = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div>}
 
-      </div>
+      </div>}
 
       {/* Bottom Grid: Recent Activity + Active Goals */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-4">
+      {(activityList.length > 0 || activeGoals.length > 0) && <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-4">
         {/* Recent Activity Log */}
-        <div className="lg:col-span-7 space-y-4">
+        {activityList.length > 0 && <div className="lg:col-span-7 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="font-heading font-extrabold text-lg sm:text-xl text-slate-100 light:text-slate-900 flex items-center gap-2">
               <Clock className="w-5 h-5 text-teal-400 light:text-indigo-600" />
@@ -215,7 +264,7 @@ export const DashboardOverview = () => {
           </div>
 
           <div className="p-5 rounded-2xl bg-slate-900/90 light:bg-white border border-slate-800 light:border-slate-200 space-y-3 shadow-md">
-            {activities?.slice(0, 5).map((act) => (
+            {activityList.slice(0, 5).map((act) => (
               <div key={act.id} className="flex items-center justify-between gap-3 py-2 border-b border-slate-800/40 light:border-slate-100 last:border-0 text-xs">
                 <div className="flex items-center gap-3">
                   <span className="w-2 h-2 rounded-full bg-cyan-400 light:bg-indigo-600 shrink-0" />
@@ -228,10 +277,10 @@ export const DashboardOverview = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div>}
 
         {/* Active Learning Goals */}
-        <div className="lg:col-span-5 space-y-4">
+        {activeGoals.length > 0 && <div className="lg:col-span-5 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="font-heading font-extrabold text-lg sm:text-xl text-slate-100 light:text-slate-900 flex items-center gap-2">
               <Target className="w-5 h-5 text-amber-400 light:text-indigo-600" />
@@ -246,7 +295,7 @@ export const DashboardOverview = () => {
           </div>
 
           <div className="space-y-3">
-            {goals?.filter((g) => g.status === 'In Progress').slice(0, 3).map((goal) => (
+            {activeGoals.slice(0, 3).map((goal) => (
               <div key={goal.id} className="p-4 rounded-2xl bg-slate-900/90 light:bg-white border border-slate-800 light:border-slate-200 shadow-md">
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-xs font-mono font-bold text-amber-400 light:text-amber-600">
@@ -265,11 +314,11 @@ export const DashboardOverview = () => {
               </div>
             ))}
           </div>
-        </div>
-      </div>
+        </div>}
+      </div>}
 
       {/* Personal Notes Quick Workspace Section */}
-      <div className="pt-4 space-y-4">
+      {noteList.length > 0 && <div className="pt-4 space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="font-heading font-extrabold text-lg sm:text-xl text-slate-100 light:text-slate-900 flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-indigo-400 light:text-indigo-600" />
@@ -279,13 +328,13 @@ export const DashboardOverview = () => {
             onClick={() => setActiveTab('notes')}
             className="text-xs font-mono font-semibold text-cyan-400 light:text-indigo-600 hover:underline flex items-center gap-1"
           >
-            <span>Open All Notes ({notes?.length || 0})</span>
+            <span>Open All Notes ({noteList.length})</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {notes?.slice(0, 2).map((note) => (
+          {noteList.slice(0, 2).map((note) => (
             <div
               key={note.id}
               onClick={() => setActiveTab('notes')}
@@ -306,7 +355,7 @@ export const DashboardOverview = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div>}
     </div>
   );
 };

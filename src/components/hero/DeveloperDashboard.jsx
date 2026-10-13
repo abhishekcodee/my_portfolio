@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Code, Cpu, Database, Cloud, Sparkles, Check, Play, Command } from 'lucide-react';
-import { Github } from '../ui/Icons';
+import { Terminal, Cpu, Database, Cloud, Sparkles, Check, Play, Command } from 'lucide-react';
 
 export const DeveloperDashboard = () => {
   const [activeTab, setActiveTab] = useState('php'); // 'php' | 'python' | 'terminal'
@@ -59,7 +58,7 @@ client.loop_start()`;
     const cmd = terminalInput.trim().toLowerCase();
     if (!cmd) return;
 
-    const newLogs = [...terminalLogs, { type: 'input', text: `\$ ${terminalInput}` }];
+    const newLogs = [...terminalLogs, { type: 'input', text: `$ ${terminalInput}` }];
 
     if (cmd === 'clear') {
       setTerminalLogs([]);

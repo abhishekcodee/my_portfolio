@@ -1,7 +1,7 @@
 import React from 'react';
 import { PROFILE } from '../../config/profile';
 import { motion } from 'framer-motion';
-import { Layout, Cpu, Zap, Wrench, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Layout, Cpu, Zap, Wrench, ArrowRight } from 'lucide-react';
 
 const whatIDoIcons = {
   Layout: Layout,

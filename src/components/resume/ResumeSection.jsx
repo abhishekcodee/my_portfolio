@@ -4,7 +4,7 @@ import { PROJECTS_DATA } from '../../data/projects';
 import { SKILLS_CATEGORIES } from '../../data/skills';
 import { CERTIFICATIONS } from '../../data/certifications';
 import { motion } from 'framer-motion';
-import { Download, Printer, FileText, Mail, MapPin, Globe, Award, CheckCircle2 } from 'lucide-react';
+import { Download, Printer, FileText, Mail, MapPin, Globe } from 'lucide-react';
 import { Linkedin } from '../ui/Icons';
 
 export const ResumeSection = () => {
@@ -108,7 +108,7 @@ export const ResumeSection = () => {
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 hover:text-cyan-400 transition-colors"
                 >
-                  <Globe className="w-3.5 h-3.5 text-emerald-400" /> github.com/{PROFILE.githubUsername || 'amanupadhyay2030-rgb'}
+                  <Globe className="w-3.5 h-3.5 text-emerald-400" /> github.com/{PROFILE.githubUsername}
                 </a>
               )}
               {PROFILE.socials?.linkedin && (

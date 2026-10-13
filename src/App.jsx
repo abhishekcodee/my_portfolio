@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ThemeProvider, useTheme } from './context/ThemeContext';
-import { DashboardProvider } from './context/DashboardContext';
+import { ThemeProvider } from './context/ThemeProvider';
+import { useTheme } from './context/useTheme';
+import { DashboardProvider } from './context/DashboardProvider';
 import { DashboardLayout } from './components/dashboard/DashboardLayout';
 import { Navbar } from './components/layout/Navbar';
 import { Hero } from './components/hero/Hero';

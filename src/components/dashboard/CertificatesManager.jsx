@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useDashboard } from '../../context/DashboardContext';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Award, Plus, Search, ExternalLink, Download, CheckCircle, Edit, Trash2, X, Filter, SlidersHorizontal, Eye, Maximize2, Minimize2 } from 'lucide-react';
+import { useDashboard } from '../../context/useDashboard';
+import { motion } from 'framer-motion';
+import { Award, Plus, Search, ExternalLink, Edit, Trash2, X, SlidersHorizontal, Eye, Maximize2, Minimize2 } from 'lucide-react';
 
 export const CertificatesManager = () => {
   const { certificates, addItem, updateItem, deleteItem } = useDashboard();
@@ -21,15 +21,15 @@ export const CertificatesManager = () => {
     issuer: '',
     certId: '',
     issueDate: '',
-    expiryDate: 'Never',
-    category: 'Web Development',
+     expiryDate: '',
+     category: '',
     skills: '',
     certUrl: '',
     verifyUrl: '',
     description: '',
-    status: 'Verified',
-    fileType: 'PDF',
-    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80',
+     status: '',
+     fileType: '',
+     image: '',
   });
 
   const categories = ['All', 'Web Development', 'Python', 'Cloud', 'Database', 'IoT', 'Other'];
@@ -56,16 +56,16 @@ export const CertificatesManager = () => {
       title: '',
       issuer: '',
       certId: '',
-      issueDate: new Date().toISOString().split('T')[0],
-      expiryDate: 'Never',
-      category: 'Web Development',
-      skills: 'PHP, MySQL, PDO',
+       issueDate: '',
+       expiryDate: '',
+       category: '',
+       skills: '',
       certUrl: '',
       verifyUrl: '',
       description: '',
-      status: 'Verified',
-      fileType: 'PDF',
-      image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80',
+       status: '',
+       fileType: '',
+       image: '',
     });
     setIsAddModalOpen(true);
   };

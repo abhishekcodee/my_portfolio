@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { SKILLS_CATEGORIES } from '../../data/skills';
 import { SkillCategoryCard } from './SkillCategoryCard';
 import { TechSphere3D } from '../3d/TechSphere3D';
@@ -40,7 +40,7 @@ export const TechStack = () => {
 
   const totalPages = filteredCategories.length;
 
-  const scrollToCard = (index) => {
+  const scrollToCard = useCallback((index) => {
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current;
       const cardWidth = container.firstElementChild?.offsetWidth || 300;
@@ -48,17 +48,17 @@ export const TechStack = () => {
       container.scrollTo({ left: index * (cardWidth + gap), behavior: 'smooth' });
       setActivePageIndex(index);
     }
-  };
+  }, []);
 
   const handlePrevSlide = () => {
     const nextIndex = activePageIndex > 0 ? activePageIndex - 1 : totalPages - 1;
     scrollToCard(nextIndex);
   };
 
-  const handleNextSlide = () => {
+  const handleNextSlide = useCallback(() => {
     const nextIndex = activePageIndex < totalPages - 1 ? activePageIndex + 1 : 0;
     scrollToCard(nextIndex);
-  };
+  }, [activePageIndex, totalPages, scrollToCard]);
 
   // Auto-play timer effect
   useEffect(() => {
@@ -71,7 +71,7 @@ export const TechStack = () => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isAutoPlay, activePageIndex, viewMode, totalPages]);
+  }, [isAutoPlay, viewMode, handleNextSlide]);
 
   return (
     <section id="skills" className="pt-24 pb-16 lg:pt-32 lg:pb-20 scroll-mt-24 relative overflow-hidden bg-slate-950/40 light:bg-slate-50/50">
@@ -338,4 +338,3 @@ export const TechStack = () => {
     </section>
   );
 };
-

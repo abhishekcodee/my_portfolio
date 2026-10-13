@@ -5,6 +5,17 @@ import { Menu, X, Code2 } from 'lucide-react';
 import { Github, Linkedin } from '../ui/Icons';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const NAV_LINKS = [
+  { name: 'Home', href: '#home' },
+  { name: 'About', href: '#about' },
+  { name: 'Skills', href: '#skills' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'Journey', href: '#experience' },
+  { name: 'Resume', href: '#resume' },
+  { name: 'Contact', href: '#contact' },
+  { name: 'Dashboard', href: '#/dashboard' },
+];
+
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -14,22 +25,11 @@ export const Navbar = () => {
   const hasLinkedIn = Boolean(PROFILE.socials?.linkedin);
   const githubUrl = PROFILE.socials?.github || (PROFILE.githubUsername ? `https://github.com/${PROFILE.githubUsername}` : '');
 
-  const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Journey', href: '#experience' },
-    { name: 'Resume', href: '#resume' },
-    { name: 'Contact', href: '#contact' },
-    { name: 'Dashboard', href: '#/dashboard' },
-  ];
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sections = navLinks.map(link => link.href.substring(1));
+      const sections = NAV_LINKS.map(link => link.href.substring(1));
       const scrollPosition = window.scrollY + 200;
 
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -77,7 +77,7 @@ export const Navbar = () => {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-1 bg-slate-900/60 light:bg-slate-100/80 p-1.5 rounded-2xl border border-slate-800/80 light:border-slate-200/80 backdrop-blur-sm">
-            {navLinks.map((link) => {
+            {NAV_LINKS.map((link) => {
               const isActive = activeSection === link.href.substring(1);
               return (
                 <a
@@ -154,7 +154,7 @@ export const Navbar = () => {
             className="md:hidden bg-slate-950/95 light:bg-white/95 border-b border-slate-800 light:border-slate-200 backdrop-blur-xl px-4 pt-3 pb-6 shadow-2xl"
           >
             <div className="flex flex-col gap-2 pt-2">
-              {navLinks.map((link) => {
+              {NAV_LINKS.map((link) => {
                 const isActive = activeSection === link.href.substring(1);
                 return (
                   <a

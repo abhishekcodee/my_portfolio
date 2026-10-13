@@ -1,13 +1,16 @@
 import React from 'react';
 import { useGitHub } from '../../hooks/useGitHub';
+import { PROFILE } from '../../config/profile';
 import { motion } from 'framer-motion';
-import { Star, GitFork, BookOpen, ExternalLink, Code2 } from 'lucide-react';
+import { Star, GitFork, BookOpen, ExternalLink } from 'lucide-react';
 import { Github } from '../ui/Icons';
 
 export const GitHubSection = () => {
-  const { profile, repos, loading, error, isFallback } = useGitHub();
-  const githubUsername = profile.login || 'abhishekupadhyay';
-  const profileUrl = profile.html_url || `https://github.com/${githubUsername}`;
+  const { profile, repos, loading, error } = useGitHub();
+  const githubUsername = profile?.login || PROFILE.githubUsername || '';
+  if (loading) return <section id="github" className="py-20 text-center text-slate-500">Loading live GitHub data…</section>;
+  if (error || !profile) return <section id="github" className="py-20 text-center text-slate-600"><p>Live GitHub data is unavailable right now.</p><a className="underline" href={PROFILE.socials?.github || '#'} target="_blank" rel="noreferrer">Open GitHub profile</a></section>;
+  const profileUrl = profile.html_url || PROFILE.socials?.github || `https://github.com/${githubUsername}`;
 
   return (
     <section id="github" className="py-14 lg:py-20 relative overflow-hidden bg-dot-pattern">
@@ -172,7 +175,7 @@ export const GitHubSection = () => {
                 <div className="flex items-center justify-between pt-4 border-t border-slate-800/60 light:border-slate-200 text-xs font-mono text-slate-400">
                   <span className="flex items-center gap-1.5 font-medium text-slate-300 light:text-slate-700">
                     <span className="w-2.5 h-2.5 rounded-full bg-indigo-400" />
-                    {repo.language || 'Code'}
+                     {repo.language}
                   </span>
 
                   <div className="flex items-center gap-3">

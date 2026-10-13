@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useDashboard } from '../../context/DashboardContext';
-import { useTheme } from '../../context/ThemeContext';
+import { useDashboard } from '../../context/useDashboard';
+import { useTheme } from '../../context/useTheme';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard,
@@ -40,7 +40,7 @@ import { DashboardSettings } from './DashboardSettings';
 import { saveDashboardData } from '../../services/dashboardStorage';
 
 export const DashboardLayout = ({ isDarkMode: isDarkModeProp, setIsDarkMode: setIsDarkModeProp }) => {
-  const { theme, toggleTheme, isDarkMode: isDarkModeContext, setIsDarkMode: setIsDarkModeContext } = useTheme();
+  const { toggleTheme, isDarkMode: isDarkModeContext, setIsDarkMode: setIsDarkModeContext } = useTheme();
 
   const isDarkMode = isDarkModeProp !== undefined ? isDarkModeProp : isDarkModeContext;
 
@@ -173,7 +173,7 @@ export const DashboardLayout = ({ isDarkMode: isDarkModeProp, setIsDarkMode: set
 
             <div className="flex flex-col">
               <span className="font-heading font-extrabold text-sm text-slate-100 light:text-slate-900 leading-none">
-                {auth?.user?.name || 'Abhishek OS'}
+                 {auth?.user?.name || 'Dashboard'}
               </span>
               <span className="text-[10px] font-mono text-cyan-400 light:text-indigo-600 font-bold uppercase mt-0.5">
                 {activeNavItem.label} ▾
@@ -248,9 +248,9 @@ export const DashboardLayout = ({ isDarkMode: isDarkModeProp, setIsDarkMode: set
                       <Icon className="w-4 h-4" />
                       <span>{item.label}</span>
                     </div>
-                    {item.id === 'streak' && (
+                     {item.id === 'streak' && Number(streak?.currentStreak) > 0 && (
                       <span className="px-1.5 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 font-bold">
-                        {streak?.currentStreak || 14}d
+                         {streak.currentStreak}d
                       </span>
                     )}
                   </button>
@@ -329,10 +329,10 @@ export const DashboardLayout = ({ isDarkMode: isDarkModeProp, setIsDarkMode: set
 
               <div>
                 <h2 className="font-heading font-extrabold text-base text-slate-100 light:text-slate-900 leading-tight">
-                  {auth?.user?.name || 'Abhishek OS'}
+                   {auth?.user?.name || 'Dashboard'}
                 </h2>
                 <span className="text-[10px] font-mono text-cyan-400 light:text-indigo-600 font-semibold uppercase tracking-wider">
-                  {auth?.user?.role || 'Developer Portal'}
+                   {auth?.user?.role || 'Dashboard'}
                 </span>
               </div>
             </div>
@@ -379,9 +379,9 @@ export const DashboardLayout = ({ isDarkMode: isDarkModeProp, setIsDarkMode: set
                     <Icon className="w-4 h-4" />
                     <span>{item.label}</span>
                   </div>
-                  {item.id === 'streak' && (
+                   {item.id === 'streak' && Number(streak?.currentStreak) > 0 && (
                     <span className="px-2 py-0.5 rounded-full text-[10px] bg-amber-500/20 text-amber-300 font-bold">
-                      {streak?.currentStreak || 14}d
+                       {streak.currentStreak}d
                     </span>
                   )}
                 </button>

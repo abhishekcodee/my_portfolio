@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useDashboard } from '../../context/DashboardContext';
-import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, Plus, Search, CheckCircle2, Circle, Play, Edit, Trash2, X, ExternalLink, Calendar, User } from 'lucide-react';
+import { useDashboard } from '../../context/useDashboard';
+import { motion } from 'framer-motion';
+import { BookOpen, Plus, Search, CheckCircle2, Circle, Play, Trash2, X, Calendar, User } from 'lucide-react';
 
 export const CoursesManager = () => {
   const { courses, addItem, updateItem, deleteItem, toggleCourseLesson } = useDashboard();
@@ -19,16 +19,16 @@ export const CoursesManager = () => {
     platform: '',
     instructor: '',
     courseUrl: '',
-    thumbnail: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80',
+    thumbnail: '',
     startDate: '',
     targetCompletionDate: '',
-    status: 'Currently Learning',
+    status: '',
     progress: 0,
-    duration: '10 Hours',
+    duration: '',
     skills: '',
     description: '',
     notes: '',
-    priority: 'High',
+    priority: '',
   });
 
   const statuses = ['All', 'Currently Learning', 'Completed', 'Planned', 'Paused'];
@@ -46,19 +46,19 @@ export const CoursesManager = () => {
     setEditingCourse(null);
     setFormData({
       title: '',
-      platform: 'Udemy',
+       platform: '',
       instructor: '',
       courseUrl: '',
-      thumbnail: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80',
-      startDate: new Date().toISOString().split('T')[0],
+       thumbnail: '',
+       startDate: '',
       targetCompletionDate: '',
-      status: 'Currently Learning',
+       status: '',
       progress: 0,
-      duration: '12 Hours',
-      skills: 'Python, Automation',
+       duration: '',
+       skills: '',
       description: '',
       notes: '',
-      priority: 'High',
+       priority: '',
     });
     setIsAddModalOpen(true);
   };
@@ -69,19 +69,12 @@ export const CoursesManager = () => {
       ? formData.skills.split(',').map((s) => s.trim()).filter(Boolean)
       : formData.skills;
 
-    const defaultLessons = [
-      { id: 'l1', title: 'Module 1: Introduction & Environment Setup', completed: false },
-      { id: 'l2', title: 'Module 2: Core Concepts & Syntax', completed: false },
-      { id: 'l3', title: 'Module 3: Hands-On Technical Project', completed: false },
-      { id: 'l4', title: 'Module 4: Advanced Architecture & Deployment', completed: false },
-    ];
-
     const payload = {
       ...formData,
       skills: skillsArray,
-      totalLessons: defaultLessons.length,
+      totalLessons: 0,
       completedLessons: 0,
-      lessons: defaultLessons,
+      lessons: [],
     };
 
     if (editingCourse) {

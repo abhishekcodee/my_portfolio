@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { DashboardContext } from './DashboardContext';
 import {
   initDashboardStorage,
   getDashboardData,
@@ -10,18 +11,13 @@ import {
   importDashboardJSON,
   resetDashboardToDefault,
   verifyEmailOTP,
-  sendEmailOTP,
 } from '../services/dashboardStorage';
 
-const DashboardContext = createContext();
-
 export const DashboardProvider = ({ children }) => {
-  // Initialize storage
-  useEffect(() => {
+  const [auth, setAuth] = useState(() => {
     initDashboardStorage();
-  }, []);
-
-  const [auth, setAuth] = useState(() => getDashboardData('auth'));
+    return getDashboardData('auth');
+  });
   const [activeTab, setActiveTab] = useState('overview');
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
@@ -57,6 +53,13 @@ export const DashboardProvider = ({ children }) => {
     setStreak(getDashboardData('streak'));
     setSettings(getDashboardData('settings'));
   };
+
+  // Clear legacy sample data before the dashboard is shown, then load the
+  // empty/live-backed state into React after storage migration completes.
+  useEffect(() => {
+    initDashboardStorage();
+    refreshData();
+  }, []);
 
   // Auth Methods
   const login = (password, email = 'abhishek@portfolio.dev', rememberMe = true) => {
@@ -215,7 +218,7 @@ export const DashboardProvider = ({ children }) => {
   const handleResetData = () => {
     resetDashboardToDefault();
     refreshData();
-    showToast('Dashboard data reset to default sample values.');
+    showToast('Dashboard data cleared. Add only verified information.');
   };
 
   // Keyboard shortcut listener for Ctrl + K (Command Palette)
@@ -272,12 +275,4 @@ export const DashboardProvider = ({ children }) => {
       {children}
     </DashboardContext.Provider>
   );
-};
-
-export const useDashboard = () => {
-  const context = useContext(DashboardContext);
-  if (!context) {
-    throw new Error('useDashboard must be used within a DashboardProvider');
-  }
-  return context;
 };

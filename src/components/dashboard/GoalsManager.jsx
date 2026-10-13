@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useDashboard } from '../../context/DashboardContext';
+import { useDashboard } from '../../context/useDashboard';
 import { motion } from 'framer-motion';
-import { Target, Plus, CheckCircle2, Clock, Trash2, Edit, X } from 'lucide-react';
+import { Target, Plus, Clock, Trash2, Edit, X } from 'lucide-react';
 
 export const GoalsManager = () => {
   const { goals, addItem, updateItem, deleteItem } = useDashboard();
@@ -12,9 +12,9 @@ export const GoalsManager = () => {
     title: '',
     description: '',
     deadline: '',
-    priority: 'High',
-    progress: 50,
-    status: 'In Progress',
+     priority: '',
+     progress: 0,
+     status: '',
     relatedCourse: '',
     relatedSkill: '',
   });
@@ -24,10 +24,10 @@ export const GoalsManager = () => {
     setFormData({
       title: '',
       description: '',
-      deadline: new Date().toISOString().split('T')[0],
-      priority: 'High',
+       deadline: '',
+       priority: '',
       progress: 0,
-      status: 'In Progress',
+       status: '',
       relatedCourse: '',
       relatedSkill: '',
     });

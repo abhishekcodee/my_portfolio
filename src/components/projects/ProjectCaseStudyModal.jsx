@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, CheckCircle2, ShieldAlert, Cpu, ArrowRight, Layers, Terminal, Image as ImageIcon, ZoomIn, Lock } from 'lucide-react';
+import { X, ExternalLink, CheckCircle2, ShieldAlert, Cpu, ArrowRight, Terminal, Image as ImageIcon, ZoomIn, Lock } from 'lucide-react';
 import { Github } from '../ui/Icons';
 
 export const ProjectCaseStudyModal = ({ project, onClose }) => {

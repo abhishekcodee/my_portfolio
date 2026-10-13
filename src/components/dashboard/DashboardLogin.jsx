@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-import { useDashboard } from '../../context/DashboardContext';
+import { useDashboard } from '../../context/useDashboard';
 import { sendEmailOTP } from '../../services/dashboardStorage';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   ShieldAlert,
   ArrowRight,
   Sparkles,
-  User,
-  Mail,
-  Briefcase,
-  Key,
   Send,
   CheckCircle2,
   Lock,
@@ -25,12 +21,10 @@ export const DashboardLogin = () => {
   // Form states
   const [email, setEmail] = useState('abhishek@portfolio.dev');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(true);
+  const [rememberMe] = useState(true);
 
   // OTP state
   const [otpCode, setOtpCode] = useState('');
-  const [generatedOtp, setGeneratedOtp] = useState('');
-  const [isOtpSent, setIsOtpSent] = useState(false);
 
   // Signup extra states
   const [name, setName] = useState('');
@@ -81,9 +75,7 @@ export const DashboardLogin = () => {
       return;
     }
     setIsLoading(true);
-    const res = await sendEmailOTP(email);
-    setGeneratedOtp(res.code);
-    setIsOtpSent(true);
+    await sendEmailOTP(email);
     setIsLoading(false);
     setSuccessMsg(`🔒 Verification OTP code sent to ${email}. Check your inbox!`);
   };

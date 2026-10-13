@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDashboard } from '../../context/DashboardContext';
+import { useDashboard } from '../../context/useDashboard';
 import { motion } from 'framer-motion';
 import { FolderCode, Plus, ExternalLink, Trash2, Edit, X } from 'lucide-react';
 import { Github } from '../ui/Icons';
@@ -12,13 +12,13 @@ export const ProjectsTracker = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    technologies: 'PHP, MySQL, PDO',
+     technologies: '',
     githubUrl: '',
     liveUrl: '',
     startDate: '',
     endDate: '',
-    status: 'In Development',
-    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80',
+     status: '',
+     image: '',
   });
 
   const handleOpenAdd = () => {
@@ -26,13 +26,13 @@ export const ProjectsTracker = () => {
     setFormData({
       title: '',
       description: '',
-      technologies: 'PHP, MySQL, PDO',
+       technologies: '',
       githubUrl: '',
       liveUrl: '',
-      startDate: new Date().toISOString().split('T')[0],
+       startDate: '',
       endDate: '',
-      status: 'In Development',
-      image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80',
+       status: '',
+       image: '',
     });
     setIsAddModalOpen(true);
   };

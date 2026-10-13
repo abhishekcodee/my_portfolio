@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
 import { PROFILE } from '../config/profile';
-import { FALLBACK_GITHUB_DATA } from '../data/github';
 
 export const useGitHub = () => {
   const [data, setData] = useState({
-    profile: FALLBACK_GITHUB_DATA.profile,
-    repos: FALLBACK_GITHUB_DATA.repositories,
+    profile: null,
+    repos: [],
     loading: true,
     error: null,
-    isFallback: true,
+    isFallback: false,
   });
 
   useEffect(() => {
@@ -20,24 +19,25 @@ export const useGitHub = () => {
       if (!username) {
         if (isMounted) {
           setData({
-            profile: FALLBACK_GITHUB_DATA.profile,
-            repos: FALLBACK_GITHUB_DATA.repositories,
+            profile: null,
+            repos: [],
             loading: false,
-            error: null,
-            isFallback: true,
+            error: 'No GitHub username is configured.',
+            isFallback: false,
           });
         }
         return;
       }
 
       try {
+        const headers = { Accept: 'application/vnd.github+json' };
         const [profileRes, reposRes] = await Promise.all([
-          fetch(`https://api.github.com/users/${username}`),
-          fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`)
+          fetch(`https://api.github.com/users/${encodeURIComponent(username)}`, { headers }),
+          fetch(`https://api.github.com/users/${encodeURIComponent(username)}/repos?sort=updated&per_page=6`, { headers })
         ]);
 
-        if (!profileRes.ok) {
-          throw new Error('GitHub profile not reachable or rate-limited');
+        if (!profileRes.ok || !reposRes.ok) {
+          throw new Error(`GitHub data unavailable (${profileRes.status === 403 || reposRes.status === 403 ? 'rate limited' : 'request failed'})`);
         }
 
         const profileData = await profileRes.json();
@@ -46,28 +46,28 @@ export const useGitHub = () => {
         if (isMounted) {
           setData({
             profile: {
-              name: profileData.name || PROFILE.name,
+              name: profileData.name || profileData.login || username,
               login: profileData.login || username,
               avatar_url: profileData.avatar_url || '',
-              bio: profileData.bio || PROFILE.subheading,
+              bio: profileData.bio || '',
               public_repos: profileData.public_repos || 0,
               followers: profileData.followers || 0,
               following: profileData.following || 0,
-              location: profileData.location || PROFILE.location,
+              location: profileData.location || '',
               html_url: profileData.html_url || `https://github.com/${username}`,
             },
-            repos: Array.isArray(reposData) && reposData.length > 0 
+            repos: Array.isArray(reposData)
               ? reposData.map((r) => ({
                   id: r.id,
                   name: r.name,
-                  description: r.description || "Software repository",
+                   description: r.description || '',
                   html_url: r.html_url,
                   stargazers_count: r.stargazers_count || 0,
                   forks_count: r.forks_count || 0,
-                  language: r.language || "Code",
-                  topics: r.topics || []
-                }))
-              : FALLBACK_GITHUB_DATA.repositories,
+                   language: r.language || '',
+                   topics: r.topics || []
+                 }))
+               : [],
             loading: false,
             error: null,
             isFallback: false,
@@ -76,16 +76,11 @@ export const useGitHub = () => {
       } catch (err) {
         if (isMounted) {
           setData({
-            profile: {
-              ...FALLBACK_GITHUB_DATA.profile,
-              name: PROFILE.name,
-              login: username,
-              html_url: `https://github.com/${username}`,
-            },
-            repos: FALLBACK_GITHUB_DATA.repositories,
+            profile: null,
+            repos: [],
             loading: false,
             error: err.message,
-            isFallback: true,
+            isFallback: false,
           });
         }
       }

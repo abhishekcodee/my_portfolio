@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDashboard } from '../../context/DashboardContext';
+import { useDashboard } from '../../context/useDashboard';
 import { motion } from 'framer-motion';
 import { Bookmark, Plus, ExternalLink, Star, Trash2, Edit, X, Search } from 'lucide-react';
 
@@ -13,10 +13,10 @@ export const ResourcesManager = () => {
   const [formData, setFormData] = useState({
     title: '',
     url: '',
-    type: 'Documentation',
+     type: '',
     description: '',
-    tags: 'PHP, Official',
-    favorite: true,
+     tags: '',
+     favorite: false,
   });
 
   const types = ['All', 'Documentation', 'Reference', 'Video', 'Article', 'GitHub', 'Course', 'Tool'];
@@ -35,10 +35,10 @@ export const ResourcesManager = () => {
     setFormData({
       title: '',
       url: '',
-      type: 'Documentation',
+       type: '',
       description: '',
-      tags: 'PHP, Official',
-      favorite: true,
+       tags: '',
+       favorite: false,
     });
     setIsAddModalOpen(true);
   };

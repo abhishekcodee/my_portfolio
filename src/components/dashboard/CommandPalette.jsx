@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDashboard } from '../../context/DashboardContext';
+import { useDashboard } from '../../context/useDashboard';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, Award, BookOpen, FileText, Cpu, Target, FolderCode, Bookmark } from 'lucide-react';
 

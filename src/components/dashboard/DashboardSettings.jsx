@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useDashboard } from '../../context/DashboardContext';
-import { useTheme } from '../../context/ThemeContext';
-import { motion } from 'framer-motion';
-import { Settings, Download, Upload, RefreshCw, KeyRound, User, LogOut, ShieldCheck, FileSpreadsheet, Sun, Moon } from 'lucide-react';
+import { useDashboard } from '../../context/useDashboard';
+import { useTheme } from '../../context/useTheme';
+import { Settings, Download, Upload, RefreshCw, LogOut, ShieldCheck, FileSpreadsheet, Sun, Moon } from 'lucide-react';
 import { saveDashboardData } from '../../services/dashboardStorage';
 
 export const DashboardSettings = () => {
@@ -24,14 +23,12 @@ export const DashboardSettings = () => {
     confirmPassword: '',
   });
 
-  const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
-
   const handlePasswordChange = (e) => {
     e.preventDefault();
     const currentSettings = settings || {};
-    const expected = currentSettings.passwordHash || 'abhishek123';
+    const expected = currentSettings.passwordHash;
 
-    if (passwordData.currentPassword !== expected && passwordData.currentPassword !== 'abhishek123') {
+    if (!expected || passwordData.currentPassword !== expected) {
       showToast('Current password incorrect', 'error');
       return;
     }
@@ -65,7 +62,7 @@ export const DashboardSettings = () => {
       try {
         const json = JSON.parse(event.target.result);
         handleImportData(json);
-      } catch (err) {
+      } catch {
         showToast('Invalid JSON backup file format', 'error');
       }
     };
@@ -127,13 +124,13 @@ export const DashboardSettings = () => {
 
           <div>
             <h3 className="font-heading font-extrabold text-lg text-slate-100 light:text-slate-900">
-              {auth?.user?.name || 'Abhishek Upadhyay'}
+              {auth?.user?.name || 'Name not recorded'}
             </h3>
             <p className="text-xs font-mono text-cyan-400 light:text-indigo-600 font-semibold mb-1">
-              {auth?.user?.role || 'Full-Stack Software Developer'}
+              {auth?.user?.role || 'Role not recorded'}
             </p>
             <p className="text-[11px] text-slate-400 font-mono">
-              {auth?.user?.email || 'abhishek@portfolio.dev'}
+              {auth?.user?.email || 'Email not recorded'}
             </p>
           </div>
         </div>
@@ -288,7 +285,7 @@ export const DashboardSettings = () => {
               required
               value={passwordData.currentPassword}
               onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
-              placeholder="Current password (abhishek123)"
+              placeholder="Enter your current password"
               className="w-full px-3 py-2.5 rounded-xl bg-slate-950 light:bg-slate-50 text-slate-100 light:text-slate-900 border border-slate-800 focus:outline-none focus:border-cyan-400"
             />
           </div>
@@ -326,14 +323,14 @@ export const DashboardSettings = () => {
         </form>
       </div>
 
-      {/* Reset Sample Data Danger Zone */}
+      {/* Clear Local Data Danger Zone */}
       <div className="p-6 rounded-3xl bg-rose-500/10 border border-rose-500/30 shadow-xl flex items-center justify-between">
         <div>
           <h3 className="font-heading font-extrabold text-base text-rose-400 light:text-rose-600">
-            Reset Default Data
+             Clear Local Data
           </h3>
           <p className="text-xs text-slate-400 light:text-slate-600 mt-1">
-            Reset all dashboard items to default initial sample certificates and notes.
+             Remove all locally stored dashboard items. No sample data will be recreated.
           </p>
         </div>
 
@@ -342,7 +339,7 @@ export const DashboardSettings = () => {
           className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-mono text-xs font-bold shadow-md cursor-pointer flex items-center gap-1.5"
         >
           <RefreshCw className="w-3.5 h-3.5" />
-          <span>Reset Sample Data</span>
+           <span>Clear Dashboard Data</span>
         </button>
       </div>
     </div>

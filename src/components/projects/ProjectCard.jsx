@@ -52,9 +52,9 @@ export const ProjectCard = ({ project, onOpenCaseStudy }) => {
       initial={{ opacity: 0, y: 25 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      whileHover={{ y: -6, scale: 1.01 }}
+      whileHover={{ y: -8, scale: 1.015, rotateX: 1.5, rotateY: -1.5 }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className="group relative border-l-2 border-l-cyan-400 sm:border-l-0 sm:border border-slate-800/90 light:border-slate-200/90 rounded-r-2xl sm:rounded-3xl bg-slate-900/40 sm:bg-slate-900/90 light:bg-white hover:border-cyan-500/50 light:hover:border-indigo-500/50 transition-all duration-300 sm:shadow-xl hover:shadow-2xl overflow-hidden flex flex-col justify-between h-full"
+      className="project-card group relative border-l-2 border-l-cyan-400 sm:border-l-0 sm:border border-slate-800/90 light:border-slate-200/90 rounded-r-2xl sm:rounded-3xl bg-slate-900/40 sm:bg-slate-900/90 light:bg-white hover:border-cyan-500/50 light:hover:border-indigo-500/50 transition-all duration-300 sm:shadow-xl hover:shadow-2xl overflow-hidden flex flex-col justify-between h-full"
     >
       {/* Top Border Accent (Desktop) */}
       <div className="hidden sm:block h-1.5 w-full bg-gradient-to-r from-indigo-500 via-cyan-400 to-teal-400 group-hover:from-cyan-400 group-hover:via-indigo-500 transition-all duration-500" />
@@ -108,7 +108,7 @@ export const ProjectCard = ({ project, onOpenCaseStudy }) => {
             {project.technologies.map((tech, idx) => (
               <span
                 key={idx}
-                className="text-[11px] font-mono px-2.5 py-0.5 rounded-lg bg-slate-950/80 light:bg-slate-100 text-slate-300 light:text-slate-700 border border-slate-800 light:border-slate-200 group-hover:border-cyan-500/30 light:group-hover:border-indigo-300 transition-all duration-200 shadow-xs"
+                className="project-tech-pill text-[11px] font-mono px-2.5 py-0.5 rounded-lg bg-slate-950/80 light:bg-slate-100 text-slate-300 light:text-slate-700 border border-slate-800 light:border-slate-200 group-hover:border-cyan-500/30 light:group-hover:border-indigo-300 transition-all duration-200 shadow-xs"
               >
                 {tech}
               </span>
@@ -196,4 +196,3 @@ export const ProjectCard = ({ project, onOpenCaseStudy }) => {
     </motion.div>
   );
 };
-

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDashboard } from '../../context/DashboardContext';
+import { useDashboard } from '../../context/useDashboard';
 import { motion } from 'framer-motion';
 import { Cpu, Plus, Edit, Trash2, X } from 'lucide-react';
 
@@ -10,20 +10,20 @@ export const SkillsTracker = () => {
 
   const [formData, setFormData] = useState({
     name: '',
-    category: 'Backend Development',
-    level: 'Advanced',
-    progress: 85,
-    experience: '2 Years',
+     category: '',
+     level: '',
+     progress: 0,
+     experience: '',
   });
 
   const handleOpenAdd = () => {
     setEditingSkill(null);
     setFormData({
       name: '',
-      category: 'Backend Development',
-      level: 'Advanced',
-      progress: 80,
-      experience: '2 Years',
+       category: '',
+       level: '',
+       progress: 0,
+       experience: '',
     });
     setIsAddModalOpen(true);
   };
@@ -96,7 +96,7 @@ export const SkillsTracker = () => {
                   {skill.name}
                 </h3>
                 <div className="text-xs font-mono text-slate-400 mt-0.5">
-                  Proficiency: <span className="font-bold text-cyan-400 light:text-indigo-600">{skill.level}</span> • Exp: {skill.experience || '2 Years'}
+                   Proficiency: <span className="font-bold text-cyan-400 light:text-indigo-600">{skill.level || 'Not recorded'}</span>{skill.experience ? ` • Exp: ${skill.experience}` : ''}
                 </div>
               </div>
 
