@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { ThemeProvider } from './context/ThemeProvider';
 import { useTheme } from './context/useTheme';
 import { DashboardProvider } from './context/DashboardProvider';
@@ -57,6 +58,7 @@ export default function App() {
     <ThemeProvider>
       <DashboardProvider>
         <MainAppContent />
+        <Analytics />
       </DashboardProvider>
     </ThemeProvider>
   );
