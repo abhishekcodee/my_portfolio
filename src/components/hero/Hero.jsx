@@ -3,8 +3,7 @@ import { PROFILE } from '../../config/profile';
 import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
 import { ArrowUpRight, Mail, MapPin, Sparkles } from 'lucide-react';
 import { Github, Linkedin, Instagram, Facebook } from '../ui/Icons';
-import heroImage from '../../assets/profile-office.jpeg';
-import fullBodyImage from '../../assets/profile-full-body.jpeg';
+import portraitImage from '../../assets/profile-portrait.jpeg';
 import { ThreeBackgroundCanvas } from '../3d/ThreeBackgroundCanvas';
 
 const PortraitCard = () => {
@@ -46,8 +45,6 @@ const PortraitCard = () => {
       <div className="hero-profile-card">
         <motion.div
           tabIndex={0}
-          role="img"
-          aria-label={`${PROFILE.name} profile portrait`}
           onPointerMove={handlePointerMove}
           onPointerLeave={resetTilt}
           onPointerDown={(event) => {
@@ -68,20 +65,15 @@ const PortraitCard = () => {
             className="hero-profile-image"
             style={prefersReducedMotion ? undefined : { translateZ: 18 }}
           >
-            <img src={heroImage} alt="Abhishek Upadhyay" />
-            <div className="hero-image-caption">01 / 04</div>
+            <img src={portraitImage} alt={`${PROFILE.name} portrait`} />
+            <div className="hero-image-caption">PORTRAIT</div>
           </motion.div>
           <div className="hero-profile-meta">
             <div>
               <p className="hero-profile-name">{PROFILE.name}</p>
               <p className="hero-profile-role">Full-stack builder & problem solver</p>
             </div>
-             <div className="flex items-center gap-2">
-               <img
-                 src={fullBodyImage}
-                 alt={`${PROFILE.name} full-body portrait`}
-                 className="w-12 h-16 object-cover rounded-md border border-white/30 shadow-lg"
-               />
+             <div className="flex items-center">
                <MapPin className="w-5 h-5" />
              </div>
           </div>
